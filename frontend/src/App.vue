@@ -1,59 +1,63 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a href="/" class="navbar-brand">Daybook</a>
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/home" class="nav-link">
-            <font-awesome-icon icon="home" /> Home
-          </router-link>
-        </li>
-        <li v-if="showAdminBoard" class="nav-item">
-          <router-link to="/admin" class="nav-link">Admin Board</router-link>
-        </li>
-        <li v-if="showModeratorBoard" class="nav-item">
-          <router-link to="/mod" class="nav-link">Moderator Board</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link v-if="currentUser" to="/user" class="nav-link">User</router-link>
-        </li>
-      </div>
-
-      <div v-if="!currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/register" class="nav-link">
-            <font-awesome-icon icon="user-plus" /> Sign Up
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/login" class="nav-link">
-            <font-awesome-icon icon="sign-in-alt" /> Login
-          </router-link>
-        </li>
-      </div>
-
-      <div v-if="currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/profile" class="nav-link">
-            <font-awesome-icon icon="user" />
-            {{ currentUser.username }}
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" @click.prevent="logOut">
-            <font-awesome-icon icon="sign-out-alt" /> LogOut
-          </a>
-        </li>
-      </div>
-    </nav>
+    <MDBNavbar expand="lg" light bg="light" container>
+      <MDBNavbarBrand href="/home">Daybook</MDBNavbarBrand>
+      <!-- Toggle button -->
+      <MDBNavbarToggler
+        target="#navbarRightAlignExample"
+        @click="collapse = !collapse"
+      ></MDBNavbarToggler>
+      <!-- Collapsible wrapper -->
+      <MDBCollapse v-model="collapse" id="navbarRightAlignExample">
+        <MDBNavbarNav right class="mb-2 mb-lg-0">
+          <!-- Right links -->
+          <MDBNavbarItem to="/home">
+            <i class="fas fa-home"></i> 首頁
+          </MDBNavbarItem>
+          <MDBNavbarItem v-if="showAdminBoard" to="/admin">
+            Admin Board
+          </MDBNavbarItem>
+          <MDBNavbarItem v-if="showModeratorBoard" to="/mod">
+            Moderator Board
+          </MDBNavbarItem>
+          <MDBNavbarItem v-if="currentUser" to="/user">
+            User Board
+          </MDBNavbarItem>
+          <MDBNavbarItem v-if="!currentUser" to="/register">
+            <i class="fas fa-user-plus"></i> 註冊
+          </MDBNavbarItem>
+          <MDBNavbarItem v-if="!currentUser" to="/login">
+             <i class="fas fa-sign-in-alt"></i> 登入
+          </MDBNavbarItem>
+          <!-- Navbar dropdown -->
+          <MDBDropdown v-if="currentUser" class="nav-item" v-model="dropdown">
+            <MDBDropdownToggle
+              tag="a"
+              class="nav-link"
+              @click="dropdown = !dropdown"
+              >{{ currentUser.username }}</MDBDropdownToggle
+            >
+            <MDBDropdownMenu>
+              <MDBDropdownItem href="/profile">個人資料</MDBDropdownItem>
+              <MDBDropdownItem href="#" @click.prevent="logOut">登出</MDBDropdownItem>
+            </MDBDropdownMenu>
+          </MDBDropdown>
+          <!-- Right links -->
+        </MDBNavbarNav>
+      </MDBCollapse>
+      <!-- Collapsible wrapper -->
+    </MDBNavbar>
 
     <div class="container">
       <router-view />
     </div>
+
   </div>
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
   computed: {
     currentUser() {
@@ -78,6 +82,15 @@ export default {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
+    }
+  },
+  setup() {
+    const collapse = ref(false);
+    const dropdown = ref(false);
+
+    return {
+      collapse,
+      dropdown
     }
   }
 };

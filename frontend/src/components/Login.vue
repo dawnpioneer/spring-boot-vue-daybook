@@ -1,64 +1,65 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
+  <MDBRow 
+    tag="form" 
+    @submit.prevent="checkForm"
+    @submit="handleLogin"
+    class="g-3 needs-validation" 
+    novalidate
+  >
+    <MDBCol md="6" class="offset-md-3">
+      <h3>登入</h3>
+    </MDBCol>  
+    <MDBCol md="6" class="offset-md-3">
+      <MDBInput
+        label="帳號"
+        v-model="user.username"
+        invalidFeedback="請輸入帳號"
+        required
       />
-      <Form @submit="handleLogin" :validation-schema="schema">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <Field name="username" type="text" class="form-control" />
-          <ErrorMessage name="username" class="error-feedback" />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <Field name="password" type="password" class="form-control" />
-          <ErrorMessage name="password" class="error-feedback" />
-        </div>
-
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
-            <span
-              v-show="loading"
-              class="spinner-border spinner-border-sm"
-            ></span>
-            <span>Login</span>
-          </button>
-        </div>
-
-        <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
-        </div>
-      </Form>
-    </div>
-  </div>
+    </MDBCol>
+    <MDBCol md="6" class="offset-md-3">
+      <MDBInput
+        label="密碼"
+        v-model="user.password"
+        invalidFeedback="請輸入密碼"
+        type="password"
+        required
+      />
+    </MDBCol>
+    <MDBCol md="6" class="offset-md-3">
+      <MDBCheckbox
+        label="記住我"
+        v-model="checkbox1"
+      />
+    </MDBCol>
+    <MDBCol md="6" class="offset-md-3">
+      <MDBBtn color="primary" type="submit" :disabled="loading">
+        <span
+          v-show="loading"
+          class="spinner-border spinner-border-sm"
+        ></span>
+        <span>登入</span>        
+      </MDBBtn>
+    </MDBCol>
+    <MDBCol md="6" class="offset-md-3 alert"
+      v-if="message"
+      :class="successful ? 'alert-success' : 'alert-danger'">
+      {{ message }}
+    </MDBCol>
+  </MDBRow>
 </template>
 
 <script>
-import { Form, Field, ErrorMessage } from "vee-validate";
-import * as yup from "yup";
-
 export default {
   name: "Login",
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-  },
   data() {
-    const schema = yup.object().shape({
-      username: yup.string().required("Username is required!"),
-      password: yup.string().required("Password is required!"),
-    });
-
     return {
       loading: false,
       message: "",
-      schema,
+      user: {
+        username: "",
+        password: ""
+      }
     };
   },
   computed: {
@@ -72,10 +73,13 @@ export default {
     }
   },
   methods: {
-    handleLogin(user) {
+    handleLogin() {
+      // 驗證
+      if (!(!!this.user.username && !!this.user.password)) {
+        return;
+      }
       this.loading = true;
-
-      this.$store.dispatch("auth/login", user).then(
+      this.$store.dispatch("auth/login", this.user).then(
         () => {
           this.$router.push("/profile");
         },
@@ -91,44 +95,13 @@ export default {
       );
     },
   },
+  setup() {
+    const checkForm = e => {
+      e.target.classList.add("was-validated");
+    };
+    return {
+      checkForm
+    };
+  }
 };
 </script>
-
-<style scoped>
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
-}
-
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-}
-
-.error-feedback {
-  color: red;
-}
-</style>

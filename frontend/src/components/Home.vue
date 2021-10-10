@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <header class="jumbotron">
-      <h3>{{ content }}</h3>
-    </header>
+    <h3>{{ content }}</h3>
   </div>
 </template>
 

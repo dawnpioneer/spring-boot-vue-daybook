@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="currentUser" class="container-fluid">
     <header class="jumbotron">
       <h3>
         <strong>{{currentUser.username}}</strong> Profile
