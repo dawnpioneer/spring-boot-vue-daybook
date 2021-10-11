@@ -1,4 +1,4 @@
-package com.nagino.daybook.controllers;
+package com.nagino.daybook.controller;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nagino.daybook.models.ERole;
-import com.nagino.daybook.models.Role;
-import com.nagino.daybook.models.User;
+import com.nagino.daybook.model.ERole;
+import com.nagino.daybook.model.Role;
+import com.nagino.daybook.model.User;
 import com.nagino.daybook.payload.request.LoginRequest;
 import com.nagino.daybook.payload.request.SignupRequest;
 import com.nagino.daybook.payload.response.JwtResponse;

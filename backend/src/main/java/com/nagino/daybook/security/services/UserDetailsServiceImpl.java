@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nagino.daybook.models.User;
+import com.nagino.daybook.model.User;
 import com.nagino.daybook.repository.UserRepository;
 
 @Service

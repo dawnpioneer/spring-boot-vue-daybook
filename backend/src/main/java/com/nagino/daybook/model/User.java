@@ -1,4 +1,4 @@
-package com.nagino.daybook.models;
+package com.nagino.daybook.model;
 
 import java.util.HashSet;
 import java.util.Set;

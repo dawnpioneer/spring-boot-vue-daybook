@@ -1,4 +1,4 @@
-package com.nagino.daybook.models;
+package com.nagino.daybook.model;
 
 public enum ERole {
 	ROLE_USER,
