@@ -1,0 +1,265 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Daybook",
+		"_postman_id": "9990543d-cbaa-d83f-c60f-338eaa00c1c9",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/auth/signup",
+			"request": {
+				"url": "http://localhost:8080/api/auth/signup",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mod\",\n\t\"email\": \"mod@standard.com\",\n\t\"password\": \"123456\",\n\t\"role\": [\"mod\",\"user\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/auth/signin",
+			"request": {
+				"url": "http://localhost:8080/api/auth/signin",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"123456\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/test/all",
+			"request": {
+				"url": "http://localhost:8080/api/test/all",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mod\",\n\t\"email\": \"mod@standard.com\",\n\t\"password\": \"123456\",\n\t\"role\": [\"mod\",\"user\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/test/user",
+			"request": {
+				"url": "http://localhost:8080/api/test/user",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtb2QiLCJpYXQiOjE2MzI2NTYzNTgsImV4cCI6MTYzMjc0Mjc1OH0.EJKJ26GQwMFfyh9em0ICIYsBLa5-KDMkFcUvUphYW1OrsMh7QoQJD1QXL46Xn8vp0qgzZTdY57JfifWmNlqVhQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mod\",\n\t\"email\": \"mod@standard.com\",\n\t\"password\": \"123456\",\n\t\"role\": [\"mod\",\"user\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/test/mod",
+			"request": {
+				"url": "http://localhost:8080/api/test/mod",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtb2QiLCJpYXQiOjE2MzI2NTYzNTgsImV4cCI6MTYzMjc0Mjc1OH0.EJKJ26GQwMFfyh9em0ICIYsBLa5-KDMkFcUvUphYW1OrsMh7QoQJD1QXL46Xn8vp0qgzZTdY57JfifWmNlqVhQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mod\",\n\t\"email\": \"mod@standard.com\",\n\t\"password\": \"123456\",\n\t\"role\": [\"mod\",\"user\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/test/admin",
+			"request": {
+				"url": "http://localhost:8080/api/test/admin",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtb2QiLCJpYXQiOjE2MzI2NTYzNTgsImV4cCI6MTYzMjc0Mjc1OH0.EJKJ26GQwMFfyh9em0ICIYsBLa5-KDMkFcUvUphYW1OrsMh7QoQJD1QXL46Xn8vp0qgzZTdY57JfifWmNlqVhQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mod\",\n\t\"email\": \"mod@standard.com\",\n\t\"password\": \"123456\",\n\t\"role\": [\"mod\",\"user\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/daybookCategories",
+			"request": {
+				"url": "http://localhost:8080/api/daybookCategories",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNDE5NDM3OCwiZXhwIjoxNjM0MjgwNzc4fQ.cq7cGCoKNhDiUsQrj-ZBojQS0S11Tm0iqRhd9rcurcikVRHzIA5C_22UeQX8jUjflUHo-pYQZoaHAL7raxVsAg",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/daybookCategories/{id}",
+			"request": {
+				"url": "http://localhost:8080/api/daybookCategories/48",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNDE5NDM3OCwiZXhwIjoxNjM0MjgwNzc4fQ.cq7cGCoKNhDiUsQrj-ZBojQS0S11Tm0iqRhd9rcurcikVRHzIA5C_22UeQX8jUjflUHo-pYQZoaHAL7raxVsAg",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/daybookCategories",
+			"request": {
+				"url": "http://localhost:8080/api/daybookCategories",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNDE5NDM3OCwiZXhwIjoxNjM0MjgwNzc4fQ.cq7cGCoKNhDiUsQrj-ZBojQS0S11Tm0iqRhd9rcurcikVRHzIA5C_22UeQX8jUjflUHo-pYQZoaHAL7raxVsAg",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"category\": \"INCOME\",\n\t\"name\": \"加班費\",\n\t\"sortNum\": 13\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/daybookCategories/{id}",
+			"request": {
+				"url": "http://localhost:8080/api/daybookCategories/48",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNDE5NDM3OCwiZXhwIjoxNjM0MjgwNzc4fQ.cq7cGCoKNhDiUsQrj-ZBojQS0S11Tm0iqRhd9rcurcikVRHzIA5C_22UeQX8jUjflUHo-pYQZoaHAL7raxVsAg",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"category\": \"INCOME\",\n\t\"name\": \"其他2\",\n\t\"sortNum\": 15\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/daybookCategories/{id}",
+			"request": {
+				"url": "http://localhost:8080/api/daybookCategories/48",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtb2QiLCJpYXQiOjE2MzQxODg3MjUsImV4cCI6MTYzNDI3NTEyNX0.pHS-Fy5GAgEczM-AA8uogW6Yzuca60HE1XW_ndG8kdKfD_fsWt9gHcl5SKQxWV8oD1kBGriX-_OOyvXjfSqk0g",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"category\": \"INCOME\",\n\t\"name\": \"其他2\",\n\t\"sortNum\": 11\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
