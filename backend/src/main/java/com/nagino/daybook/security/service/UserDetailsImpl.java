@@ -1,4 +1,4 @@
-package com.nagino.daybook.security.services;
+package com.nagino.daybook.security.service;
 
 import java.util.Collection;
 import java.util.List;

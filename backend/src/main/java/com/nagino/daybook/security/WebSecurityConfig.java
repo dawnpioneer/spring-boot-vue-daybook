@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.nagino.daybook.security.jwt.AuthEntryPointJwt;
 import com.nagino.daybook.security.jwt.AuthTokenFilter;
-import com.nagino.daybook.security.services.UserDetailsServiceImpl;
+import com.nagino.daybook.security.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
