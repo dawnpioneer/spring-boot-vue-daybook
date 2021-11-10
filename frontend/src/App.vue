@@ -1,52 +1,41 @@
 <template>
   <div id="app">
-    <MDBNavbar expand="lg" light bg="light" container>
-      <MDBNavbarBrand href="/home">Daybook</MDBNavbarBrand>
-      <!-- Toggle button -->
-      <MDBNavbarToggler
-        target="#navbarRightAlignExample"
-        @click="collapse = !collapse"
-      ></MDBNavbarToggler>
-      <!-- Collapsible wrapper -->
-      <MDBCollapse v-model="collapse" id="navbarRightAlignExample">
-        <MDBNavbarNav right class="mb-2 mb-lg-0">
-          <!-- Right links -->
-          <MDBNavbarItem to="/home">
-            <i class="fas fa-home"></i> 首頁
-          </MDBNavbarItem>
-          <MDBNavbarItem v-if="showAdminBoard" to="/admin">
-            Admin Board
-          </MDBNavbarItem>
-          <MDBNavbarItem v-if="showModeratorBoard" to="/mod">
-            Moderator Board
-          </MDBNavbarItem>
-          <MDBNavbarItem v-if="currentUser" to="/user">
-            User Board
-          </MDBNavbarItem>
-          <MDBNavbarItem v-if="!currentUser" to="/register">
-            <i class="fas fa-user-plus"></i> 註冊
-          </MDBNavbarItem>
-          <MDBNavbarItem v-if="!currentUser" to="/login">
-             <i class="fas fa-sign-in-alt"></i> 登入
-          </MDBNavbarItem>
-          <!-- Navbar dropdown -->
-          <MDBDropdown v-if="currentUser" class="nav-item" v-model="dropdown">
-            <MDBDropdownToggle
-              tag="a"
-              class="nav-link"
-              @click="dropdown = !dropdown"
-              >{{ currentUser.username }}</MDBDropdownToggle
-            >
-            <MDBDropdownMenu>
-              <MDBDropdownItem href="/profile">個人資料</MDBDropdownItem>
-              <MDBDropdownItem href="#" @click.prevent="logOut">登出</MDBDropdownItem>
-            </MDBDropdownMenu>
-          </MDBDropdown>
-          <!-- Right links -->
-        </MDBNavbarNav>
-      </MDBCollapse>
-      <!-- Collapsible wrapper -->
-    </MDBNavbar>
+    <ul id="dropdown-profile" class="dropdown-content">
+        <li><a href="/profile">個人資料</a></li>
+        <li><a href="#" @click.prevent="logOut">登出</a></li>
+    </ul>
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper">
+            <a id="logo-container" href="/" class="brand-logo">Daybook</a>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger" style="color:black;"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/news"><i class="fa fa-bullhorn" aria-hidden="true"></i> 更新歷程</a></li>
+                <li v-if="currentUser"><a href="/daybook"><i class="fa fa-sticky-note" aria-hidden="true"></i> 記帳本</a></li>
+                <li v-if="currentUser"><a href="/daybookCategory"><i class="fa fa-list-alt" aria-hidden="true"></i> 記帳類別</a></li>
+                <li v-if="currentUser"><a href="/chart"><i class="fa fa-chart-bar" aria-hidden="true"></i> 統計圖</a></li>
+                <li v-if="currentUser"><a href="/user"><i class="fa fa-chart-bar" aria-hidden="true"></i> User</a></li>
+                <li v-if="showModeratorBoard"><a href="/mod"><i class="fa fa-chart-bar" aria-hidden="true"></i> Mod</a></li>
+                <li v-if="showAdminBoard"><a href="/admin"><i class="fa fa-chart-bar" aria-hidden="true"></i> Admin</a></li>
+                <li v-if="!currentUser"><a href="/register"><i class="fas fa-user-plus"></i> 註冊</a></li>
+                <li v-if="!currentUser"><a href="/login"><i class="fas fa-sign-in-alt"></i> 登入</a></li>
+                <li v-if="currentUser">
+                    <a class="dropdown-trigger" href="#" data-target="dropdown-profile">
+                        <i class="fa fa-user" aria-hidden="true"></i> {{ currentUser.username }}
+                        <i class="material-icons right" style="margin-left:0px">arrow_drop_down</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+          
+    <!-- Mobile Menu -->
+    <ul id="nav-mobile" class="sidenav">
+        <li><a href="/news"><i class="fa fa-bullhorn" aria-hidden="true"></i> 更新歷程</a></li>
+        <li v-if="currentUser"><a href="/daybook"><i class="fa fa-sticky-note" aria-hidden="true"></i> 記帳本</a></li>
+        <li v-if="currentUser"><a href="/daybookCategory"><i class="fa fa-list-alt" aria-hidden="true"></i> 記帳類別</a></li>
+        <li v-if="currentUser"><a href="/chart"><i class="fa fa-chart-bar" aria-hidden="true"></i> 統計圖</a></li>
+        <li v-if="currentUser"><a href="#" @click.prevent="logOut">登出</a></li>
+    </ul>
 
     <div class="container">
       <router-view />
@@ -57,6 +46,7 @@
 
 <script>
 import { ref } from 'vue';
+import M from 'materialize-css';
 
 export default {
   computed: {
@@ -92,6 +82,9 @@ export default {
       collapse,
       dropdown
     }
-  }
+  },
+  mounted () {
+    M.AutoInit();
+  },
 };
 </script>
