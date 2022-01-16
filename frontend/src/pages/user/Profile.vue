@@ -1,3 +1,5 @@
+
+
 <template>
   <div v-if="currentUser" class="container-fluid">
     <header class="jumbotron">

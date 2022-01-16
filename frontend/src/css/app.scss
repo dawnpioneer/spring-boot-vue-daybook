@@ -1,0 +1,43 @@
+// app global css in SCSS form
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.q-table th {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.q-table tbody td {
+    font-size: 1.5rem;
+}
+
+.q-table__title {
+    font-size: 2rem;
+}
+
+.q-item__label {
+    font-size: 1.5rem;
+}
+
+.q-toolbar__title {
+    font-size: 1.5rem;
+}
+
+.q-btn {
+    font-size: 1.1rem;
+}
+
+.q-placeholder {
+    font-size: 1.1rem;
+}
+
+.q-pa-lg {
+    padding: 24px 24px;
+}
+
+h5 {
+    margin-block-start: 0px;
+}
