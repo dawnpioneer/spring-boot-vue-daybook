@@ -2,13 +2,9 @@
   <q-dialog ref="dialog" @hide="onDialogHide">
     <q-card style="max-width: 500px; width: 100%;">
       <div class="text-h4 text-bold text-center text-white bg-red-7 q-pa-md">{{title}}</div>
-
       <q-card-section class="q-pt-lg">
         {{text}}
       </q-card-section>
-
-      <!-- buttons example -->
-
       <div class="row q-pa-md q-col-gutter-sm">
         <div class="col-6">
           <q-btn unelevated class="full-width" color="red-7" label="確定" @click="onOKClick" />
@@ -53,13 +49,12 @@ export default {
       // before hiding the QDialog
       this.$emit('ok')
       // or with payload: this.$emit('ok', { ... })
-
-      // then hiding dialog
+      // hide dialog
       this.hide()
     },
 
     onCancelClick () {
-      // we just need to hide dialog
+      // hide dialog
       this.hide()
     }
   }

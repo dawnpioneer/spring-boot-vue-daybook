@@ -1,17 +1,22 @@
 // app global css in SCSS form
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+$common-font-size: 1.5rem;
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
 }
 
+h5 {
+    margin-block-start: 0px;
+}
+
 .q-table th {
-    font-size: 1.5rem;
+    font-size: $common-font-size;
     font-weight: bold;
 }
 
 .q-table tbody td {
-    font-size: 1.5rem;
+    font-size: $common-font-size;
 }
 
 .q-table__title {
@@ -19,25 +24,39 @@ body {
 }
 
 .q-item__label {
-    font-size: 1.5rem;
+    font-size: $common-font-size;
 }
 
 .q-toolbar__title {
-    font-size: 1.5rem;
+    font-size: $common-font-size;
 }
 
 .q-btn {
     font-size: 1.1rem;
 }
 
-.q-placeholder {
-    font-size: 1.1rem;
+.q-field {
+    font-size: $common-font-size;
 }
 
 .q-pa-lg {
     padding: 24px 24px;
 }
 
-h5 {
-    margin-block-start: 0px;
+// 因字體調大，原為18px左上Label會太接近主體文字，調整為14px
+.q-field__label {
+    top: 14px;
+}
+
+// 上方工具列
+.tool-bar {
+    padding-top: 1rem;
+    .q-field {
+        margin-left: 1rem
+    }
+}
+
+// 通知訊息
+.q-notification__message {
+    font-size: $common-font-size;
 }
