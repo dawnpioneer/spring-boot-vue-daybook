@@ -3,7 +3,7 @@ package com.nagino.daybook.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,14 +11,14 @@ public class Role {
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
-	private ERole name;
+	private ERole authority;
 
 	public Role() {
 
 	}
 
-	public Role(ERole name) {
-		this.name = name;
+	public Role(ERole authority) {
+		this.authority = authority;
 	}
 
 	public Integer getId() {
@@ -29,11 +29,11 @@ public class Role {
 		this.id = id;
 	}
 
-	public ERole getName() {
-		return name;
+	public ERole getAuthority() {
+		return authority;
 	}
 
-	public void setName(ERole name) {
-		this.name = name;
+	public void setAuthority(ERole authority) {
+		this.authority = authority;
 	}
 }

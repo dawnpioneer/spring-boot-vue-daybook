@@ -1,5 +1,6 @@
 package com.nagino.daybook.repository;
 
+import com.nagino.daybook.model.Daybook;
 import com.nagino.daybook.model.DaybookCategory;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DaybookCategoryRepository extends JpaRepository<DaybookCategory, Long> {
-	List<DaybookCategory> findAll(Specification specification);
-	Optional<DaybookCategory> findByIdAndOwnerId(Long id, Long ownerId);
-	Optional<DaybookCategory> deleteByIdAndOwnerId(Long id, Long ownerId);
+public interface DaybookRepository extends JpaRepository<Daybook, Long> {
+	List<Daybook> findAll(Specification specification);
+	Optional<Daybook> findByIdAndOwnerId(Long id, Long ownerId);
+	Optional<Long> deleteByIdAndOwnerId(Long id, Long ownerId);
 }
