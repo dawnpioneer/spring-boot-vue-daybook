@@ -14,7 +14,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Index.vue') },
-      { path: '/daybookCategoryList', component: () => import('pages/daybookCategory/DaybookCategoryList.vue') },
+      { path: '/daybookCategory', component: () => import('pages/daybook/DaybookCategory.vue') },
+      { path: '/daybook', component: () => import('pages/daybook/Daybook.vue') },
       { path: '/profile', component: () => import('pages/user/Profile.vue') },
     ]
   },

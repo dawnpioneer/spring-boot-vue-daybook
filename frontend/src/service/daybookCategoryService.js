@@ -1,8 +1,8 @@
 import { api } from 'boot/axios'
 
 const daybookCategoryService  = {
-  getAll: function(category, name) {
-    return api.get(`/daybookCategories?category=${category}&name=${name}`);
+  getAll: function() {
+    return api.get(`/daybookCategories`);
   },
 
   get: function(id) {

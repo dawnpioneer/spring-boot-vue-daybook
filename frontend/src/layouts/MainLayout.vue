@@ -31,7 +31,7 @@
       class="bg-primary text-white"
     >
       <q-list>
-        <q-item to="/Daybook" active-class="q-item-no-link-highlighting">
+        <q-item to="/daybook" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="article"/>
           </q-item-section>
@@ -39,7 +39,7 @@
             <q-item-label>記帳本</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/DaybookCategoryList" active-class="q-item-no-link-highlighting">
+        <q-item to="/daybookCategory" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="list"/>
           </q-item-section>

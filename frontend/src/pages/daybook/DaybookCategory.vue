@@ -1,34 +1,32 @@
 <template>
   <q-card>
     <q-card-section class="q-pa-none">
+      <div class="title">記帳類別</div>
+      <div class="row tool-bar">
+        <q-btn icon="add" color="blue" flat @click="openDataFormDialog"/>
+        <q-select outlined 
+          v-model="searchModel.category" 
+          :options="searchOptions"
+          label="類別" 
+          @update:model-value="search"
+        />
+        <q-input 
+          v-model="searchModel.name" 
+          label="搜尋名稱"
+          @update:model-value="search"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
       <q-table
-        title="記帳類別"
         :rows="daybookCategories"
         :columns="columns"
         row-key="id"
         virtual-scroll
         :rows-per-page-options="[0]"
       >
-        <template v-slot:header>
-          <div class="row tool-bar">
-            <q-btn icon="add" color="blue" flat @click="openDataFormDialog"/>
-            <q-select outlined 
-              v-model="searchModel.category" 
-              :options="searchOptions"
-              label="類別" 
-              @update:model-value="search"
-            />
-            <q-input 
-              v-model="searchModel.name" 
-              label="搜尋名稱"
-              @update:model-value="search"
-            >
-              <template v-slot:append>
-                <q-icon name="search" />
-              </template>
-            </q-input>
-          </div>
-        </template>
         <template v-slot:body-cell-function="props">
           <q-td :props="props">
             <div>
@@ -83,7 +81,7 @@ export default {
       daybookCategories: [],
       name: "",
       columns: [
-        { name: 'category', align: 'left', label: '類別', field: 'category', sortable: true },
+        { name: 'category', align: 'left', label: '收支', field: 'category', sortable: true },
         { name: 'name', align: 'left', label: '名稱', field: 'name', sortable: true },
         { name: 'function', align: 'left', label: '功能', field: '', sortable: false }
       ],
@@ -106,8 +104,8 @@ export default {
   },
   methods: {
     // 讀取記帳類別資料
-    getDaybookCategories() {
-      daybookCategoryService.getAll(this.category, this.name) // 呼叫API進行取得資料動作
+    getDaybookCategories () {
+      daybookCategoryService.getAll() // 呼叫API進行取得資料動作
         .then(response => {
           const table = response.data
           this.originDaybookCategories = table
@@ -201,7 +199,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getDaybookCategories() // 載入記帳類別資料
   }
 }

@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface DaybookCategoryRepository extends JpaRepository<DaybookCategory, Long> {
 	List<DaybookCategory> findAll(Specification specification);
 	Optional<DaybookCategory> findByIdAndOwnerId(Long id, Long ownerId);
-	Optional<DaybookCategory> deleteByIdAndOwnerId(Long id, Long ownerId);
+	void deleteByIdAndOwnerId(Long id, Long ownerId);
 }

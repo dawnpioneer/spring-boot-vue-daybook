@@ -86,7 +86,7 @@ public class DaybookCategoryController extends BaseController {
     @DeleteMapping("/daybookCategories/{id}")
     public ResponseEntity<HttpStatus> deleteDaybookCategory(@PathVariable("id") long id) {
         try {
-            daybookCategoryRepository.deleteById(id);
+            daybookCategoryRepository.deleteByIdAndOwnerId(id, getCurrentUserId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
