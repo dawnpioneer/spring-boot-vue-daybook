@@ -43,6 +43,12 @@ public class DaybookController extends BaseController {
         return new ResponseEntity<>(daybookRepository.findAll(specification), HttpStatus.OK);
     }
 
+    @GetMapping("/daybookYearList")
+    public ResponseEntity<List<Integer>> getDaybookYearList() {
+        return new ResponseEntity<>(daybookRepository.getYearList(getCurrentUserId()), HttpStatus.OK);
+    }
+
+
     @GetMapping("/daybooks/{id}")
     public ResponseEntity<Daybook> getDaybookById(@PathVariable("id") long id) {
         Optional<Daybook> daybook = daybookRepository.findByIdAndOwnerId(id, getCurrentUserId());
@@ -88,7 +94,7 @@ public class DaybookController extends BaseController {
         try {
             Optional<Daybook> daybook = daybookRepository.findByIdAndOwnerId(id, getCurrentUserId());
             if (daybook.isPresent()) {
-                daybookRepository.deleteById(id);
+                daybookRepository.deleteByIdAndOwnerId(id, getCurrentUserId());
             } else {
                 throw new Exception("Not found Daybook with id = " + id);
             }
