@@ -5,6 +5,7 @@ export const setToken = (state, token) => {
 
 export const removeToken = (state) => {
   state.token = ''
+  window.localStorage.setItem('token', '')
 }
 
 export const setUser = (state, user) => {
