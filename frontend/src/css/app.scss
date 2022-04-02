@@ -1,6 +1,7 @@
 // app global css in SCSS form
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
 $common-font-size: 1.5rem;
+$mobile-font-size: 20px;
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
@@ -11,23 +12,35 @@ h5 {
 }
 
 .q-table th {
+    @media (max-width: $breakpoint-xs-max)
+    {
+        font-size: $mobile-font-size;
+    }
     font-size: $common-font-size;
     font-weight: bold;
 }
 
 .q-table tbody td {
+    @media (max-width: $breakpoint-xs-max)
+    {
+        font-size: $mobile-font-size;
+    }
     font-size: $common-font-size;
 }
 
-.q-table__title {
-    font-size: 2rem;
-}
-
 .q-item__label {
+    @media (max-width: $breakpoint-xs-max)
+    {
+        font-size: $mobile-font-size;
+    }
     font-size: $common-font-size;
 }
 
 .q-toolbar__title {
+    @media (max-width: $breakpoint-xs-max)
+    {
+        font-size: $mobile-font-size;
+    }
     font-size: $common-font-size;
 }
 
@@ -36,11 +49,26 @@ h5 {
 }
 
 .q-field {
+    @media (max-width: $breakpoint-xs-max)
+    {
+        font-size: $mobile-font-size;
+    }
     font-size: $common-font-size;
 }
 
 .q-pa-lg {
     padding: 24px 24px;
+}
+
+// 限制table th td寬度
+.q-table thead th {
+    width: 50px;
+    white-space: normal;
+}
+
+.q-table tbody td {
+    width: 50px;
+    white-space: normal;
 }
 
 // 因字體調大，原為18px左上Label會太接近主體文字，調整為14px
@@ -59,4 +87,9 @@ h5 {
 // 通知訊息
 .q-notification__message {
     font-size: $common-font-size;
+}
+
+.title {
+    font-size: 2rem;
+    padding: 1rem;
 }
