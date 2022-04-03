@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.Predicate;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -62,6 +64,7 @@ public class DaybookController extends BaseController {
         try {
             Daybook daybook = daybookCategoryRepository.findByIdAndOwnerId(daybookCategoryId, getCurrentUserId()).map(daybookCategory -> {
                 daybookRequest.setDaybookCategory(daybookCategory);
+                daybookRequest.setOwnerId(getCurrentUserId());
                 return daybookRepository.save(daybookRequest);
             }).orElseThrow(() -> new Exception("Not found Daybook with id = " + daybookCategoryId));
 
@@ -90,6 +93,7 @@ public class DaybookController extends BaseController {
     }
 
     @DeleteMapping("/daybooks/{id}")
+    @Transactional
     public ResponseEntity<HttpStatus> deleteDaybook(@PathVariable("id") long id) {
         try {
             Optional<Daybook> daybook = daybookRepository.findByIdAndOwnerId(id, getCurrentUserId());

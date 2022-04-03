@@ -2,17 +2,18 @@ package com.nagino.daybook.controller;
 
 import com.nagino.daybook.model.DaybookCategory;
 import com.nagino.daybook.repository.DaybookCategoryRepository;
+import com.nagino.daybook.repository.DaybookRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -20,6 +21,8 @@ import java.util.Optional;
 public class DaybookCategoryController extends BaseController {
     @Autowired
     DaybookCategoryRepository daybookCategoryRepository;
+    @Autowired
+    DaybookRepository daybookRepository;
 
     @GetMapping("/daybookCategories")
     public ResponseEntity<List<DaybookCategory>> getAllDaybookCategories(@RequestParam(required = false) String category, String name) {
@@ -58,9 +61,6 @@ public class DaybookCategoryController extends BaseController {
     public ResponseEntity<DaybookCategory> createDaybookCategory(@RequestBody DaybookCategory daybookCategory) {
         try {
             DaybookCategory newDaybookCategory = new DaybookCategory(daybookCategory.getCategory(), daybookCategory.getName(), getCurrentUserId(), daybookCategory.getSortNum());
-            ResponseEntity<List<DaybookCategory>> daybookCategories = getAllDaybookCategories(null, null);
-            // 新增時的sortNum預設為目前資料最大的sortNum+1
-            newDaybookCategory.setSortNum(Objects.requireNonNull(daybookCategories.getBody()).get(daybookCategories.getBody().size()-1).getSortNum() + 1);
             DaybookCategory _daybookCategory = daybookCategoryRepository.save(newDaybookCategory);
             return new ResponseEntity<>(_daybookCategory, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class DaybookCategoryController extends BaseController {
 
     @PutMapping("/daybookCategories/{id}")
     public ResponseEntity<DaybookCategory> updateDaybookCategory(@PathVariable("id") long id, @RequestBody DaybookCategory daybookCategory) {
-        Optional<DaybookCategory> daybookCategoryData = daybookCategoryRepository.findById(id);
+        Optional<DaybookCategory> daybookCategoryData = daybookCategoryRepository.findByIdAndOwnerId(id, getCurrentUserId());
 
         if (daybookCategoryData.isPresent()) {
             DaybookCategory _daybookCategory = daybookCategoryData.get();
@@ -84,9 +84,16 @@ public class DaybookCategoryController extends BaseController {
     }
 
     @DeleteMapping("/daybookCategories/{id}")
-    public ResponseEntity<HttpStatus> deleteDaybookCategory(@PathVariable("id") long id) {
+    @Transactional
+    public ResponseEntity<HttpStatus> deleteDaybookCategory(@PathVariable("id") Long id) {
         try {
-            daybookCategoryRepository.deleteByIdAndOwnerId(id, getCurrentUserId());
+            Optional<DaybookCategory> daybookCategory = daybookCategoryRepository.findByIdAndOwnerId(id, getCurrentUserId());
+            if (daybookCategory.isPresent()) {
+                daybookRepository.deleteByDaybookCategoryAndOwnerId(daybookCategory.get(), getCurrentUserId());
+                daybookCategoryRepository.deleteByIdAndOwnerId(id, getCurrentUserId());
+            } else {
+                throw new Exception("Not found DaybookCategory with id = " + id);
+            }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
