@@ -39,7 +39,7 @@ public class DaybookController extends BaseController {
                 predicatesList.add(namePredicate);
             }
             Predicate[] predicates = new Predicate[predicatesList.size()];
-            query.orderBy(cb.desc(root.get("recordDate")));
+            query.orderBy(cb.desc(root.get("recordDate"))).orderBy(cb.desc(root.get("lastUpdated")));
             return cb.and(predicatesList.toArray(predicates));
         };
         return new ResponseEntity<>(daybookRepository.findAll(specification), HttpStatus.OK);

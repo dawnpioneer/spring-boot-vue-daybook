@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity
@@ -38,10 +39,10 @@ public class Daybook {
     private Long ownerId;
 
     @CreationTimestamp
-    private Date dateCreated;
+    private OffsetDateTime dateCreated;
 
     @UpdateTimestamp
-    private Date lastUpdated;
+    private OffsetDateTime lastUpdated;
 
     public Long getId() {
         return id;
@@ -87,19 +88,19 @@ public class Daybook {
         this.ownerId = ownerId;
     }
 
-    public Date getDateCreated() {
+    public OffsetDateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(OffsetDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Date getLastUpdated() {
+    public OffsetDateTime getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(Date lastUpdated) {
+    public void setLastUpdated(OffsetDateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
