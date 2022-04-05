@@ -3,7 +3,8 @@
     <q-card style="max-width: 500px; width: 100%;">
       <div class="text-h4 text-bold text-center text-white bg-red-7 q-pa-md">{{title}}</div>
       <q-card-section class="q-pt-lg">
-        {{text}}
+        <p>{{text}}</p>
+        <p v-show="isWarningExist" style="color:red"><b>{{warning}}</b></p>
       </q-card-section>
       <div class="row q-pa-md q-col-gutter-sm">
         <div class="col-6">
@@ -19,7 +20,7 @@
 
 <script>
 export default {
-  props: ['title', 'text'],
+  props: ['title', 'text', 'warning'],
   emits: [
     // REQUIRED
     'ok', 'hide'
@@ -56,6 +57,11 @@ export default {
     onCancelClick () {
       // hide dialog
       this.hide()
+    }
+  },
+  computed: {
+    isWarningExist: function () {
+      return !!this.warning
     }
   }
 }

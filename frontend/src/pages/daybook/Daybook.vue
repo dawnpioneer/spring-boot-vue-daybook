@@ -26,11 +26,12 @@
           v-model="searchModel.daybookCategory" 
           :options="daybookCategories"
           label="類別" 
+          option-label="name"
           @update:model-value="search"
         />
         <q-input 
           v-model="searchModel.title" 
-          label="搜尋名稱"
+          label="搜尋標題"
           @update:model-value="search"
         >
           <template v-slot:append>
@@ -63,12 +64,63 @@
           <h5 class="text-center text-bold q-mb-lg">{{dataForm.isCreate ? '新增' : '編輯'}}</h5>
           <div class="row q-col-gutter-md">
             <div class="col-12">
-              <q-select outlined v-model="dataForm.model.category" :options="options" label="類別" />
+              <q-select outlined v-model="dataForm.model.category" :options="options" label="收支" @update:model-value="dataFormCategoryChanged" />
             </div>
             <div class="col-12">
-              <q-input outlined label="名稱" v-model="dataForm.model.name"
+              <q-select outlined v-model="dataForm.model.daybookCategory" :options="dataForm.daybookCategories" label="類別" option-label="name" />
+            </div>
+            <div class="col-12">
+              <q-input outlined label="標題" v-model="dataForm.model.title"
                 lazy-rules
-                :rules="[ val => val && val.length > 0 || '請輸入名稱']"
+                :rules="[ val => val && val.length > 0 || '請輸入標題']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input outlined label="金額" v-model="dataForm.model.amount"
+                type="number"
+                :rules="[ val => val && val > 0 || '請輸入金額']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input filled v-model="dataForm.model.recordDate" mask="####-##-##" :rules="[ val => val && val.length > 0 || '請輸入日期']">
+                <template v-slot:append>
+                <q-icon
+                  name="event"
+                  class="cursor-pointer">
+                    <q-popup-proxy 
+                      ref="qDateProxy"
+                    >
+                      <q-date 
+                        v-model="dataForm.model.recordDate"
+                        first-day-of-week="1"
+                        mask="YYYY-MM-DD"
+                      >
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12">
+              <q-input outlined label="備註" v-model="dataForm.model.comment"
+                lazy-rules
+                type="textarea"
+              />
+            </div>
+            <div class="col-12">
+              <q-input outlined label="建立時間" v-model="dataForm.model.dateCreated"
+                lazy-rules
+                disable
+                mask="####-##-## ##:##:##" :rules="['date']"
+                v-show="!dataForm.isCreate"
+              />
+            </div>
+            <div class="col-12">
+              <q-input outlined label="更新時間" v-model="dataForm.model.lastUpdated"
+                lazy-rules
+                disable
+                mask="####-##-## ##:##:##" :rules="['date']"
+                v-show="!dataForm.isCreate"
               />
             </div>
             <div class="col-6">
@@ -89,7 +141,7 @@
 import { daybookService } from "../../service"
 import { daybookCategoryService } from "../../service"
 import CustomDialog from "src/components/CustomDialog.vue"
-import {date} from "quasar"
+import { date } from "quasar"
 
 export default {
   name: "daybook-list",
@@ -111,18 +163,26 @@ export default {
       dataForm: {
         data: null,
         model: {
-          category: null,
-          name: null,
+          category: '支出',
+          daybookCategory: null,
+          title: null,
+          amount: null,
+          recordDate: null,
+          comment: null,
+          dateCreated: null,
+          lastUpdated: null,
         },
         isOpenDataFormDialog: false, // 是否為編輯
         isCreate: false, // 是否為新增
+        originDaybookCategories: [],
+        daybookCategories: [],
       },
       options: ['支出', '收入'],
       searchModel: {
         year: new Date().getFullYear(),
         month: new Date().getMonth() + 1, // Because getmonth() start from 0.
         category: '全部',
-        daybookCategory: {id: 0, name: '全部', label: '全部'},
+        daybookCategory: {id: 0, name: '全部'},
         title: null
       },
       searchOptions: ['全部','支出', '收入'],
@@ -160,10 +220,9 @@ export default {
       daybookCategoryService.getAll() // 呼叫API進行取得資料動作
         .then(response => {
           this.originDaybookCategories = response.data
-          this.originDaybookCategories.forEach( function ( item, index, array)  {
-            item.label = item.name;
-          });
-          this.originDaybookCategories.unshift({id: 0, name: '全部', label: '全部'})
+          this.dataForm.originDaybookCategories = this.originDaybookCategories // 將已取得的類別資料複製至dataForm使用
+          this.dataFormCategoryChanged() // 先篩選一次以設定dataForm的預設值 
+          this.originDaybookCategories.unshift({id: 0, name: '全部'})
         })
         .catch(e => {
           console.log(e)
@@ -177,6 +236,8 @@ export default {
         this.dataForm.data = {}
         this.dataForm.model = {}
         this.dataForm.model.category = '支出'
+        this.dataForm.model.daybookCategory = this.dataForm.daybookCategories[0]
+        this.dataForm.model.recordDate = date.formatDate(new Date(), 'YYYY-MM-DD')
         this.dataForm.isCreate = true
       }
       // 修改
@@ -197,16 +258,33 @@ export default {
       // 新增
       if (this.dataForm.isCreate) {
         this.dataForm.isCreate = false // 還原isCreate旗標
-        daybookService.create(this.dataForm.data) // 呼叫API進行新增動作
+        daybookService.create(this.dataForm.model.daybookCategory.id, this.dataForm.data) // 呼叫API進行新增動作
         .then(() => {
           this.getDaybooks() // 新增後重新同步畫面上的資料
+          this.notify('save')
+        }, response => {
+          //error
+          if(response.response.status !== 200) {
+            this.notify('fail')
+            console.log(response)
+          }
         })
       }
       // 修改
       else {
         daybookService.update(this.dataForm.data.id ,this.dataForm.data) // 呼叫API進行修改動作
+        .then(response => {
+          let object = this.daybooks.filter(item => { return item.id === this.dataForm.data.id })[0]
+          object.lastUpdated = response.data.lastUpdated // 更新前端物件的更新時間
+          this.notify('save')
+        }, response => {
+          //error
+          if(response.response.status !== 200) {
+            this.notify('fail')
+            console.log(response)
+          }
+        })
       }
-      this.$q.notify({ message: '儲存成功', color: 'positive', position: 'bottom-right' , timeout: 1000 })
       this.dataForm.isOpenDataFormDialog = false
     },
     // 開啟刪除視窗
@@ -222,7 +300,7 @@ export default {
         daybookService.delete(row.id) // 呼叫API進行刪除動作
         .then(() => {
           this.getDaybooks() // 刪除後重新同步畫面上的資料
-          this.$q.notify({ message: '刪除成功', color: 'negative', position: 'bottom-right' , timeout: 1000 })
+          this.notify('delete')
         })
       }).onCancel(() => {
         // 取消事件
@@ -290,6 +368,26 @@ export default {
     formatDate(dateString) {
       const date = new Date(dateString);
       return new Intl.DateTimeFormat('default', {dateStyle: 'long'}).format(date);
+    },
+    dataFormCategoryChanged() {
+      this.dataForm.daybookCategories = this.dataForm.originDaybookCategories.filter(
+        item => 
+        { 
+          return item.category === this.dataForm.model.category
+        }
+      )
+      this.dataForm.model.daybookCategory = this.dataForm.daybookCategories[0] // 設定dataForm daybookCategory預設值
+    },
+    notify(type) {
+      if (type === 'save') {
+        this.$q.notify({ message: '儲存成功', color: 'positive', position: 'bottom-right' , timeout: 1000 })
+      }
+      else if (type === 'fail'){
+        this.$q.notify({ message: '儲存失敗', color: 'negative', position: 'bottom-right' , timeout: 1000 })
+      }
+      else if (type === 'delete') {
+        this.$q.notify({ message: '刪除成功', color: 'positive', position: 'bottom-right' , timeout: 1000 })
+      }
     }
   },
   mounted () {

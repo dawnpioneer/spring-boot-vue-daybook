@@ -93,3 +93,23 @@ h5 {
     font-size: 2rem;
     padding: 1rem;
 }
+
+// 避免驗證欄位影響到欄位高度，移除原padding-bottom 20px設定
+.q-field--with-bottom {
+    padding-bottom: 0px;
+}
+
+// 隱藏附加錯誤訊息
+.q-field__bottom {
+    display: none;
+}
+
+// 字體放大後預設的18px會造成文字重疊，故調整為normal
+.q-field__native, .q-field__prefix, .q-field__suffix {
+    line-height: normal !important;
+}
+
+// 確認視窗字體
+.q-card__section p {
+    font-size: $common-font-size !important;
+}

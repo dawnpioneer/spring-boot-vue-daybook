@@ -57,8 +57,6 @@
 </template>
 
 <script>
-import Messages from "./Messages";
-
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -77,7 +75,7 @@ export default defineComponent({
     logout () {
       this.$store.dispatch('user/logout')
       this.$router.push('/login')
-    }
+    },
   },
 })
 </script>

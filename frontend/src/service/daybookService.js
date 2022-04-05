@@ -13,8 +13,8 @@ const daybookService  = {
     return api.get(`/daybooks/${id}`);
   },
 
-  create: function(data) {
-    return api.post("/daybooks", data);
+  create: function(daybookCategoryId, data) {
+    return api.post(`/daybookCategories/${daybookCategoryId}/daybooks`, data);
   },
 
   update: function(id, data) {
