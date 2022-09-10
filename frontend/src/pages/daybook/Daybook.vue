@@ -220,9 +220,9 @@ export default {
       daybookCategoryService.getAll() // 呼叫API進行取得資料動作
         .then(response => {
           this.originDaybookCategories = response.data
+          this.originDaybookCategories.unshift({id: 0, name: '全部'})
           this.dataForm.originDaybookCategories = this.originDaybookCategories // 將已取得的類別資料複製至dataForm使用
           this.dataFormCategoryChanged() // 先篩選一次以設定dataForm的預設值 
-          this.originDaybookCategories.unshift({id: 0, name: '全部'})
         })
         .catch(e => {
           console.log(e)
@@ -339,15 +339,22 @@ export default {
     // 搜尋
     search () {
       if (this.searchModel.category === '全部') { // 收支為全部，則不須選擇類別，類別固定為全部
-        this.daybookCategories = this.originDaybookCategories.filter(item => { return item.label === '全部' })
+        if (this.originDaybookCategories.length > 0) {
+          this.daybookCategories = this.originDaybookCategories.filter(item => { return item.name === '全部' })
+          this.searchModel.daybookCategory = this.daybookCategories[0]
+        }
       }
       else {
+        let isCategoryChanged = this.daybookCategories.filter(item => item.category === this.searchModel.category).length === 0
         this.daybookCategories = this.originDaybookCategories.filter(
           item => 
           { 
-            return item.category === this.searchModel.category || this.searchModel.category === '全部' || item.label === '全部'
+            return item.category === this.searchModel.category || this.searchModel.category === '全部' || item.name === '全部'
           }
         )
+        if (isCategoryChanged) {
+          this.searchModel.daybookCategory = this.daybookCategories[0]
+        }
       }
       this.daybooks = this.originDaybooks.filter(
         item =>
