@@ -44,7 +44,7 @@ public class DaybookCategoryController extends BaseController {
                 predicatesList.add(nickNamePredicate);
             }
             Predicate[] predicates = new Predicate[predicatesList.size()];
-            query.orderBy(cb.asc(root.get("sortNum")));
+            query.orderBy(cb.asc(root.get("category")), cb.asc(root.get("sortNum")));
             return cb.and(predicatesList.toArray(predicates));
         };
         return new ResponseEntity<>(daybookCategoryRepository.findAll(specification), HttpStatus.OK);
