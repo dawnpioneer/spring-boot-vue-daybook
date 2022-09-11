@@ -8,8 +8,33 @@ group = 'com.nagino'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 repositories {
 	mavenCentral()
+}
+
+processResources{
+	dependsOn 'copyFrontendToBuild'
+}
+
+bootJar{
+	archiveFileName = "daybook.jar"
+}
+
+task copyFrontendToBuild(type: Copy) {
+	// dependsOn 'quasarBuild'
+	from "./../frontend/dist/spa/"
+	into "$buildDir/resources/main/static"
+}
+
+task quasarBuild(type: Exec) {
+	workingDir = file("./../frontend")
+	commandLine 'quasar', 'build' // not working
 }
 
 dependencies {
